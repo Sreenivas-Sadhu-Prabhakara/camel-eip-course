@@ -44,7 +44,9 @@ The **Red Hat ⇄ upstream switch** is a single Maven profile; `-P upstream` swa
 needs no extra repository. CI proves both build green on JDK 17 and 21. Broker tests (module 18) run under
 `verify` via Testcontainers — see [TROUBLESHOOTING](TROUBLESHOOTING.md) if Docker isn't available.
 
-## Curriculum — 21 runnable modules ✅
+## Curriculum — 21 runnable modules · 18 patterns ✅
+
+> **21 runnable Maven modules** cover **18 Enterprise Integration Patterns**, plus a Spring Boot on-ramp, testing, and error handling. The companion site adds a broker-setup lesson (22 lessons total). See the **[roadmap](ROADMAP.md)** for what's planned next.
 One cumulative **ShopFlow** order-processing story, simple → complex.
 
 | # | Pattern | Broker? |
