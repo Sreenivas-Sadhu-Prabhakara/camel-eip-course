@@ -1,8 +1,13 @@
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
 # EIP Hands-On — Enterprise Integration Patterns with Apache Camel on Spring Boot
 
-[![ci](https://github.com/Sreenivas-Sadhu-Prabhakara/camel-eip-course/actions/workflows/ci.yml/badge.svg)](https://github.com/Sreenivas-Sadhu-Prabhakara/camel-eip-course/actions/workflows/ci.yml)
-&nbsp;License: code [Apache-2.0](LICENSE) · docs [CC-BY-4.0](LICENSE-docs)
+[![CI](https://github.com/Sreenivas-Sadhu-Prabhakara/camel-eip-course/actions/workflows/ci.yml/badge.svg)](https://github.com/Sreenivas-Sadhu-Prabhakara/camel-eip-course/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/Sreenivas-Sadhu-Prabhakara/camel-eip-course?sort=semver&color=E9A23B)](https://github.com/Sreenivas-Sadhu-Prabhakara/camel-eip-course/releases)
+[![Apache Camel 4.18](https://img.shields.io/badge/Apache%20Camel-4.18-E9A23B.svg)](https://camel.apache.org/)
+[![Spring Boot 3.5](https://img.shields.io/badge/Spring%20Boot-3.5-6DB33F.svg)](https://spring.io/projects/spring-boot)
+[![Live course site](https://img.shields.io/badge/course-live%20site-3FD0C9.svg)](https://sreenivas-sadhu-prabhakara.github.io/enterprise-integration-patterns/)
+[![License: Apache-2.0](https://img.shields.io/badge/code-Apache--2.0-blue.svg)](LICENSE)
+[![Docs: CC-BY-4.0](https://img.shields.io/badge/docs-CC--BY--4.0-lightgrey.svg)](LICENSE-docs)
 
 Learn **Enterprise Integration Patterns (EIP)** the way you actually use them: **one small, runnable,
 tested module per pattern**, built on the **Red Hat build of Apache Camel for Spring Boot** — with a
