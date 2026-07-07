@@ -1,0 +1,10 @@
+flowchart LR
+    subgraph P2P[Point-to-Point]
+      A([direct:fulfillment]) --> Q[[jms:queue:fulfillment]]
+      Q --> W[warehouse worker]
+    end
+    subgraph PUBSUB[Publish-Subscribe]
+      B([direct:order-events]) --> T[[jms:topic:order-events]]
+      T --> E[email subscriber]
+      T --> AN[analytics subscriber]
+    end

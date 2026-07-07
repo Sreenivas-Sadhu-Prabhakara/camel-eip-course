@@ -1,0 +1,23 @@
+spring:
+  main:
+    banner-mode: "off"
+  # An Artemis ConnectionFactory is auto-configured from these; the camel jms: component uses it.
+  # Defaults target the broker started by infra/docker-compose.yml (make up).
+  artemis:
+    broker-url: tcp://localhost:61616
+    user: camel
+    password: camel
+
+camel:
+  springboot:
+    name: shopflow-messaging
+    main-run-controller: true
+
+ep:
+  fulfillment-out: "log:fulfillment?showBody=true"
+  email-out: "log:email?showBody=true"
+  analytics-out: "log:analytics?showBody=true"
+
+logging:
+  level:
+    root: INFO

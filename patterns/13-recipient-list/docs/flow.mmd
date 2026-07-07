@@ -1,0 +1,6 @@
+flowchart LR
+    IN([direct:orders]) --> R[[RecipientResolver<br/>compute recipients header]]
+    R --> RL{Recipient List<br/>split header on ','}
+    RL --> W[ep.warehouse]
+    RL --> INV[ep.invoicing]
+    RL -. high-value orders only .-> AN[ep.analytics]

@@ -1,0 +1,20 @@
+spring:
+  main:
+    banner-mode: "off"
+
+camel:
+  springboot:
+    name: shopflow-capstone
+    main-run-controller: true
+
+# In production these would be jms:/kafka:/http: endpoints to real downstream services.
+ep:
+  audit: "log:audit?showBody=true"
+  warehouse: "log:warehouse?showBody=true"
+  invoicing: "log:invoicing?showBody=true"
+  event: "log:order-events?showBody=true"
+  dead: "log:dead-letter?showBody=true&level=WARN"
+
+logging:
+  level:
+    root: INFO

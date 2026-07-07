@@ -1,0 +1,25 @@
+spring:
+  main:
+    banner-mode: "off"
+
+camel:
+  springboot:
+    name: shopflow-dlq
+    # Keep the JVM alive under `spring-boot:run` even though the routes have no blocking consumer.
+    main-run-controller: true
+
+# The two terminal channels of the route.
+# In a real system ep.ok would be a direct:/jms: endpoint to fulfilment, and ep.dead a durable
+# queue you can inspect and replay. Here they log so you can watch redelivery + dead-lettering live;
+# ep.dead uses showAll so you can SEE the redelivery-exhausted headers on the failed exchange.
+ep:
+  ok: "log:paid?showBody=true"
+  dead: "log:dead?level=WARN&showAll=true&multiline=true"
+
+app:
+  demo:
+    enabled: true   # the timer feeder injects a good + a failing order so `spring-boot:run` shows the DLC
+
+logging:
+  level:
+    root: INFO

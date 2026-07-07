@@ -1,0 +1,25 @@
+spring:
+  main:
+    banner-mode: "off"
+
+camel:
+  springboot:
+    name: shopflow-testing
+    # Keep the JVM alive under `spring-boot:run` even though the routes have no blocking consumer.
+    main-run-controller: true
+
+# The two branch targets of the sample route.
+# In a real system these would be direct:/jms: endpoints to downstream services;
+# here they log so you can watch routing live when you run the app. Tests override
+# these to mock: endpoints (see src/test/resources/application.yaml).
+ep:
+  a: "log:priority?showBody=true"
+  b: "log:standard?showBody=true"
+
+app:
+  demo:
+    enabled: true   # the timer feeder injects sample bodies so `spring-boot:run` shows routing
+
+logging:
+  level:
+    root: INFO

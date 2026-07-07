@@ -1,0 +1,23 @@
+spring:
+  main:
+    banner-mode: "off"
+
+camel:
+  springboot:
+    name: wire-camel
+    # Keep the JVM alive under `spring-boot:run`. The timer route is a blocking consumer, so this
+    # is not strictly required here, but we keep it for parity with the other modules.
+    main-run-controller: true
+
+# The PingRoute's output target. In production this would be a direct:/jms: endpoint to the next
+# service; here it logs so you can watch the reply when you poke direct:ping. Tests override it to mock:.
+ep:
+  out: "log:out?showBody=true"
+
+app:
+  demo:
+    enabled: true   # the hello-timer heartbeat fires while `spring-boot:run` is up
+
+logging:
+  level:
+    root: INFO

@@ -1,0 +1,5 @@
+flowchart LR
+    IN([direct:orders]) --> N[NormalizeBean<br/>trim + upper-case country]
+    N --> E[EnrichBean<br/>stamp receivedAt]
+    E --> V[ValidateBean<br/>require orderId]
+    V --> OUT[ep.out]

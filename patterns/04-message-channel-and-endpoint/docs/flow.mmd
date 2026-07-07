@@ -1,0 +1,6 @@
+flowchart LR
+    C([caller]) -->|synchronous, caller thread| IN([direct:orders])
+    IN --> INTAKE[intake route]
+    INTAKE -->|async hand-off| Q[[seda:work queue]]
+    Q -->|concurrentConsumers=2, background threads| PROC[process route]
+    PROC --> OUT[ep.out]

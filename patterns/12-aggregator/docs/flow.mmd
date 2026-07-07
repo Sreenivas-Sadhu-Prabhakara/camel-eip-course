@@ -1,0 +1,4 @@
+flowchart LR
+    S([direct:items]) --> AGG{{Aggregator<br/>correlate on orderId header}}
+    AGG -->|completionSize == total header| OUT[ep.out]
+    AGG -.->|completionTimeout 2000ms fallback| OUT

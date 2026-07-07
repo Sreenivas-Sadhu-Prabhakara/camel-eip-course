@@ -1,0 +1,12 @@
+flowchart TD
+    IN([direct:orders]) --> T[Translator: JSON to Order]
+    T --> F{Filter: real & payable?}
+    F -->|no| X((dropped))
+    F -->|yes| ID{Idempotent: seen orderId?}
+    ID -->|dup| X
+    ID -->|new| WT[Wire Tap: audit copy]
+    WT --> CBR{Content-Based Router: country}
+    CBR --> PAY[Request-Reply: payment auth]
+    PAY -->|declined| DLQ[Dead Letter Channel]
+    PAY -->|authorized| FAN[Multicast: warehouse + invoicing]
+    FAN --> EV[Event Message: order-placed]

@@ -1,0 +1,17 @@
+camel:
+  springboot:
+    name: shopflow-capstone-test
+    main-run-controller: false
+
+# Assert on every outcome by pointing each endpoint at a mock.
+ep:
+  audit: "mock:audit"
+  warehouse: "mock:warehouse"
+  invoicing: "mock:invoicing"
+  event: "mock:event"
+  dead: "mock:dead"
+
+logging:
+  level:
+    root: WARN
+    com.example.eip: INFO

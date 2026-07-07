@@ -1,0 +1,23 @@
+spring:
+  main:
+    banner-mode: "off"
+
+camel:
+  springboot:
+    name: shopflow-splitter
+    # Keep the JVM alive under `spring-boot:run` even though the routes have no blocking consumer.
+    main-run-controller: true
+
+# Where each split line item flows on to.
+# In a real system this would be a direct:/jms: endpoint to a per-item handler;
+# here it logs so you can watch the fan-out live when you run the app.
+ep:
+  item: "log:item?showBody=true"
+
+app:
+  demo:
+    enabled: true   # the timer feeder injects a sample 3-line order so `spring-boot:run` shows the split
+
+logging:
+  level:
+    root: INFO

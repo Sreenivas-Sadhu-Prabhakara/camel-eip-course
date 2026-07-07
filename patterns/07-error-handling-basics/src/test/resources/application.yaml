@@ -1,0 +1,22 @@
+camel:
+  springboot:
+    name: shopflow-errors-test
+    main-run-controller: false
+
+# In tests, every route endpoint goes to a mock endpoint so we can assert exactly where each message landed.
+ep:
+  ok: "mock:ok"
+  error: "mock:error"
+  dead: "mock:dead"
+  charged: "mock:charged"
+  settled: "mock:settled"
+  caught: "mock:caught"
+
+app:
+  demo:
+    enabled: false   # keep the timer feeder OFF so tests are deterministic
+
+logging:
+  level:
+    root: WARN
+    com.example.eip: INFO

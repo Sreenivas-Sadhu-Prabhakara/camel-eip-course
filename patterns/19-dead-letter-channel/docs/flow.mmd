@@ -1,0 +1,6 @@
+flowchart LR
+    IN([direct:orders]) --> P[bean: PaymentBean.charge]
+    P -->|success| OK[ep.ok]
+    P -->|throws| EH{{Dead Letter Channel<br/>maximumRedeliveries=3, delay=20ms}}
+    EH -->|retry up to 3x| P
+    EH -->|still failing = exhausted| DEAD[ep.dead]

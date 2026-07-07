@@ -1,0 +1,23 @@
+spring:
+  main:
+    banner-mode: "off"
+
+camel:
+  springboot:
+    name: shopflow-aggregator
+    # Keep the JVM alive under `spring-boot:run` even though the routes have no blocking consumer.
+    main-run-controller: true
+
+# The single output of the Aggregator: where a completed order confirmation is sent.
+# In a real system this would be a direct:/jms: endpoint to the confirmations service;
+# here it logs so you can watch each re-assembled order land when you run the app.
+ep:
+  out: "log:confirmation?showBody=true"
+
+app:
+  demo:
+    enabled: true   # the timer feeder splits a sample order into items so `spring-boot:run` shows aggregation
+
+logging:
+  level:
+    root: INFO

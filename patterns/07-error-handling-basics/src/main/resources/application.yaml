@@ -1,0 +1,28 @@
+spring:
+  main:
+    banner-mode: "off"
+
+camel:
+  springboot:
+    name: shopflow-errors
+    # Keep the JVM alive under `spring-boot:run` even though the routes have no blocking consumer.
+    main-run-controller: true
+
+# Endpoints for the three routes.
+# In a real system these would be direct:/jms: endpoints to downstream services; here they log so you
+# can watch the flow live when you run the app. WARN/ERROR levels make the failure paths stand out.
+ep:
+  ok: "log:ok?showBody=true"                         # main route, happy path
+  error: "log:error?showBody=true&level=WARN"        # main route, onException(handled) divert target
+  dead: "log:dead?showBody=true&level=ERROR"         # dead-letter destination after redelivery is exhausted
+  charged: "log:charged?showBody=true"               # DLC route, happy path
+  settled: "log:settled?showBody=true"               # doTry/doCatch route, happy path
+  caught: "log:caught?showBody=true&level=WARN"      # doTry/doCatch route, locally-caught target
+
+app:
+  demo:
+    enabled: true   # the timer feeder injects alternating good/failing orders so `spring-boot:run` shows it
+
+logging:
+  level:
+    root: INFO

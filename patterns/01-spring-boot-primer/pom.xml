@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.example.eip</groupId>
+    <artifactId>camel-eip-course</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>../../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>01-spring-boot-primer</artifactId>
+  <name>01 · Spring Boot in 30 Minutes (for Camel)</name>
+  <description>A pure Spring Boot on-ramp — beans, dependency injection and @Value config — with no Camel, so the Camel modules that follow feel familiar.</description>
+
+  <dependencies>
+    <!-- Plain Spring Boot core. NO Camel here on purpose: this module teaches the Spring Boot
+         foundations (component scanning, beans, DI, @Value/config binding, auto-configuration)
+         that every later Camel module builds on. No <version> — the imported spring-boot-dependencies
+         BOM in the parent supplies it. -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter</artifactId>
+    </dependency>
+
+    <!-- Test scope -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Enables `mvn -pl patterns/01-spring-boot-primer spring-boot:run`. Version from parent. -->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+</project>

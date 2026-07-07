@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.example.eip</groupId>
+  <artifactId>camel-eip-course</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>EIP Hands-On — Enterprise Integration Patterns with Apache Camel on Spring Boot</name>
+  <description>
+    Open-source, beginner-first course: one runnable, tested module per Enterprise Integration Pattern,
+    built on the Red Hat build of Apache Camel for Spring Boot (with a plain Apache Camel fallback).
+  </description>
+
+  <!-- ================================================================= -->
+  <!-- Modules. One Maven module per pattern; add each as it is written.  -->
+  <!-- ================================================================= -->
+  <modules>
+    <module>patterns/01-spring-boot-primer</module>
+    <module>patterns/02-wire-camel</module>
+    <module>patterns/03-your-first-route</module>
+    <module>patterns/04-message-channel-and-endpoint</module>
+    <module>patterns/05-message-and-exchange</module>
+    <module>patterns/06-testing-camel-routes</module>
+    <module>patterns/07-error-handling-basics</module>
+    <module>patterns/08-pipes-and-filters</module>
+    <module>patterns/09-message-filter</module>
+    <module>patterns/10-content-based-router</module>
+    <module>patterns/11-splitter</module>
+    <module>patterns/12-aggregator</module>
+    <module>patterns/13-recipient-list</module>
+    <module>patterns/14-wire-tap</module>
+    <module>patterns/15-message-translator</module>
+    <module>patterns/16-content-enricher</module>
+    <module>patterns/18-point-to-point-and-pub-sub</module>
+    <module>patterns/19-dead-letter-channel</module>
+    <module>patterns/20-idempotent-consumer</module>
+    <module>patterns/21-request-reply-and-event-message</module>
+    <module>patterns/99-capstone-order-pipeline</module>
+  </modules>
+
+  <properties>
+    <!-- Compile to Java 17 bytecode (the lower supported JDK). CI also runs on 21. -->
+    <maven.compiler.release>17</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <!-- Spring Boot's version is pinned TRANSITIVELY by the Camel Spring Boot BOM
+         (Camel for Spring Boot 4.18.1 -> Spring Boot 3.5.14). We repeat it here ONLY
+         for the spring-boot-maven-plugin, which is a plugin and therefore not managed
+         by a dependency BOM. Keep this in sync with the BOM line.
+         NOTE: Camel 4.18 is the LAST line on Spring Boot 3.x; the next Camel line moves
+         to Spring Boot 4. Do not bump blindly. -->
+    <spring-boot.version>3.5.14</spring-boot.version>
+    <surefire.version>3.2.5</surefire.version>
+  </properties>
+
+  <!-- ================================================================= -->
+  <!-- ONE source of truth for versions: import the Camel Spring Boot BOM.  -->
+  <!-- The groupId + version come from the active profile (redhat by default).-->
+  <!-- ================================================================= -->
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>${camel.bom.groupId}</groupId>
+        <artifactId>camel-spring-boot-bom</artifactId>
+        <version>${camel.bom.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <!-- Also import the Spring Boot BOM so spring-boot-starter-* are version-managed under
+           BOTH profiles. (The Red Hat Camel BOM manages them; the plain upstream Camel BOM does
+           NOT, so this is what makes `-P upstream` resolve spring-boot-starter-test.)
+           Must match the Spring Boot line the Camel BOM targets (4.18.1 -> 3.5.14). -->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring-boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <!-- Pin a modern compiler plugin so it honours <maven.compiler.release>.
+               (Old Maven defaults bind a pre-3.6 compiler plugin that ignores it.) -->
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.13.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-maven-plugin</artifactId>
+          <version>${spring-boot.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${surefire.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>${surefire.version}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <!-- Bind failsafe so `mvn verify` runs the *IT integration tests (e.g. the broker module).
+           `mvn test` (surefire) still runs only *Test classes and skips them. Inherited by all modules;
+           a module with no *IT simply has nothing to run. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <!-- ================================================================= -->
+  <!-- The Red Hat <-> upstream switch (the key portability design move).   -->
+  <!--   ./mvnw verify              -> Red Hat build (default)               -->
+  <!--   ./mvnw -P upstream verify  -> plain Apache Camel, Maven Central only -->
+  <!-- (-P upstream deactivates the activeByDefault redhat profile.)         -->
+  <!-- ================================================================= -->
+  <profiles>
+    <profile>
+      <id>redhat</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <camel.bom.groupId>com.redhat.camel.springboot.platform</camel.bom.groupId>
+        <camel.bom.version>4.18.1.redhat-00014</camel.bom.version>
+      </properties>
+      <!-- Red Hat GA repo is PUBLIC — no login or token required. Only <url> is load-bearing. -->
+      <repositories>
+        <repository>
+          <id>red-hat-ga</id>
+          <name>Red Hat GA Repository</name>
+          <url>https://maven.repository.redhat.com/ga</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>false</enabled></snapshots>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>red-hat-ga</id>
+          <name>Red Hat GA Repository</name>
+          <url>https://maven.repository.redhat.com/ga</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>false</enabled></snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+
+    <profile>
+      <id>upstream</id>
+      <properties>
+        <camel.bom.groupId>org.apache.camel.springboot</camel.bom.groupId>
+        <camel.bom.version>4.18.1</camel.bom.version>
+      </properties>
+      <!-- No <repositories> block: Maven Central is already the default repo. -->
+    </profile>
+  </profiles>
+</project>

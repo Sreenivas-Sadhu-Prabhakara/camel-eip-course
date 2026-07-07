@@ -1,0 +1,22 @@
+spring:
+  main:
+    banner-mode: "off"
+
+camel:
+  springboot:
+    name: shopflow-pipeline
+    # Keep the JVM alive under `spring-boot:run` even though the routes have no blocking consumer.
+    main-run-controller: true
+
+# The pipeline's output channel. In a real system this would be a direct:/jms: endpoint to the next
+# stage; here it logs so you can watch the fully normalised + enriched order leave the pipeline.
+ep:
+  out: "log:out?showBody=true"
+
+app:
+  demo:
+    enabled: true   # the timer feeder injects messy sample orders so `spring-boot:run` shows the filters
+
+logging:
+  level:
+    root: INFO

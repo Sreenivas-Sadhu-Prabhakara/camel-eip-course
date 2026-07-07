@@ -1,0 +1,23 @@
+spring:
+  main:
+    banner-mode: "off"
+
+camel:
+  springboot:
+    name: shopflow-exchange
+    # Keep the JVM alive under `spring-boot:run` even though the routes have no blocking consumer.
+    main-run-controller: true
+
+# Where the enriched message goes after its headers are set.
+# In a real system this would be a direct:/jms: endpoint to a downstream service;
+# here it logs the body AND headers so you can watch the metadata you set travel with the message.
+ep:
+  out: "log:out?showBody=true&showHeaders=true"
+
+app:
+  demo:
+    enabled: true   # the timer feeder injects sample Map orders so `spring-boot:run` shows headers being set
+
+logging:
+  level:
+    root: INFO

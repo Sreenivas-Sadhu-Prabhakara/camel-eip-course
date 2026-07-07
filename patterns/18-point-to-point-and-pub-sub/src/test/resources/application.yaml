@@ -1,0 +1,16 @@
+camel:
+  springboot:
+    name: shopflow-messaging-test
+    main-run-controller: false
+
+# The broker URL is injected by the integration test from the Testcontainers-started broker
+# (see PointToPointAndPubSubIT @DynamicPropertySource). Here we only redirect the sinks to mocks.
+ep:
+  fulfillment-out: "mock:fulfillment-out"
+  email-out: "mock:email-out"
+  analytics-out: "mock:analytics-out"
+
+logging:
+  level:
+    root: WARN
+    com.example.eip: INFO

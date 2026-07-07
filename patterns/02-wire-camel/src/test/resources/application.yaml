@@ -1,0 +1,17 @@
+camel:
+  springboot:
+    name: wire-camel-test
+    main-run-controller: false
+
+# In tests, the PingRoute's output goes to a mock endpoint so we can assert on the reply.
+ep:
+  out: "mock:out"
+
+app:
+  demo:
+    enabled: false   # keep the hello-timer heartbeat OFF so tests are deterministic
+
+logging:
+  level:
+    root: WARN
+    com.example.eip: INFO

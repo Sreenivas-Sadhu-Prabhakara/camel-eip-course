@@ -1,0 +1,5 @@
+[
+  { "id": "C-1", "name": "Alice Kumar", "email": "alice@example.com", "tier": "GOLD" },
+  { "id": "C-2", "name": "Bruno Lang", "email": "bruno@example.com", "tier": "SILVER" },
+  { "id": "C-3", "name": "Chika Obi", "email": "chika@example.com", "tier": "BRONZE" }
+]

@@ -1,0 +1,23 @@
+spring:
+  main:
+    banner-mode: "off"
+
+camel:
+  springboot:
+    name: shopflow-translator
+    # Keep the JVM alive under `spring-boot:run` even though the routes have no blocking consumer.
+    main-run-controller: true
+
+# The translator's output target.
+# In a real system this would be a direct:/jms: endpoint to a downstream service;
+# here it logs so you can watch the canonical JSON when you run the app.
+ep:
+  out: "log:out?showBody=true"
+
+app:
+  demo:
+    enabled: true   # the timer feeder injects sample legacy JSON so `spring-boot:run` shows a translation
+
+logging:
+  level:
+    root: INFO

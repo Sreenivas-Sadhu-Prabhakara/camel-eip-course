@@ -1,0 +1,8 @@
+flowchart LR
+    IN([direct:orders]) --> CH{choice<br/>body contains 'VIP'?}
+    CH -->|yes| A[ep.a  priority]
+    CH -->|otherwise| B[ep.b  standard]
+    A -.->|AdviceWith weaveAddLast| TAP[mock:tap]
+    B -.->|AdviceWith weaveAddLast| TAP
+
+    E([direct:echo]) --> T[transform: echo:$body] --> R([reply])

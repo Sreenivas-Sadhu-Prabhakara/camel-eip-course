@@ -1,0 +1,27 @@
+spring:
+  main:
+    banner-mode: "off"
+
+camel:
+  springboot:
+    name: shopflow-recipient-list
+    # Keep the JVM alive under `spring-boot:run` even though the routes have no blocking consumer.
+    main-run-controller: true
+
+# The base endpoints the RecipientResolver fans out to. Config-driven so the SAME resolver
+# points at real systems in prod and at mock: endpoints in tests. Here they log so you can
+# watch the fan-out live when you run the app.
+ep:
+  warehouse: "log:warehouse?showBody=true"
+  invoicing: "log:invoicing?showBody=true"
+  analytics: "log:analytics?showBody=true"
+
+app:
+  order:
+    high-value-threshold: 1000   # orders at or above this amount ALSO go to analytics
+  demo:
+    enabled: true   # the timer feeder injects sample orders so `spring-boot:run` shows the fan-out
+
+logging:
+  level:
+    root: INFO

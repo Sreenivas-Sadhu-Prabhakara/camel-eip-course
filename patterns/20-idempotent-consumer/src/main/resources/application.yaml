@@ -1,0 +1,23 @@
+spring:
+  main:
+    banner-mode: "off"
+
+camel:
+  springboot:
+    name: shopflow-idempotent
+    # Keep the JVM alive under `spring-boot:run` even though the routes have no blocking consumer.
+    main-run-controller: true
+
+# The exactly-once destination of the Idempotent Consumer.
+# In a real system this would be a direct:/jms: endpoint to the downstream service;
+# here it logs so you can watch the first copy of each order pass and duplicates get dropped.
+ep:
+  out: "log:out?showBody=true"
+
+app:
+  demo:
+    enabled: true   # the timer feeder emits each order twice so `spring-boot:run` shows dedup live
+
+logging:
+  level:
+    root: INFO

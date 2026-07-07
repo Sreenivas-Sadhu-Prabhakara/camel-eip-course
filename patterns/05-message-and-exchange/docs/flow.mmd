@@ -1,0 +1,4 @@
+flowchart LR
+    IN([direct:orders]) --> P[Processor<br/>exchange.getMessage → copy orderId, country to headers]
+    P --> S[setHeader amount<br/>simple ${body[amount]}]
+    S --> OUT[ep.out]

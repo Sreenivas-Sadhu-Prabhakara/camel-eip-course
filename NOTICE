@@ -1,0 +1,18 @@
+EIP Hands-On — Enterprise Integration Patterns with Apache Camel on Spring Boot
+Copyright 2026 the EIP Hands-On authors.
+
+This product includes software developed as an independent, open-source educational
+project. Source code is licensed under the Apache License, Version 2.0 (see LICENSE);
+course prose, diagrams, and website content are licensed under the Creative Commons
+Attribution 4.0 International license (see LICENSE-docs).
+
+TRADEMARKS
+----------
+"Red Hat" and "Red Hat build of Apache Camel" are trademarks of Red Hat, Inc.
+"Apache", "Apache Camel", "Apache Kafka", and "Apache ActiveMQ Artemis" are trademarks
+of The Apache Software Foundation. "Spring" and "Spring Boot" are trademarks of Broadcom Inc.
+
+This project is NOT affiliated with, sponsored by, or endorsed by Red Hat, the Apache
+Software Foundation, or Broadcom. These names are used only to identify the technologies
+the course teaches. No Red Hat or Apache binaries are redistributed here; all dependencies
+are resolved from their official Maven repositories at build time.

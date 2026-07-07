@@ -1,0 +1,17 @@
+flowchart LR
+    subgraph M[error-handling · onException handled=true]
+        A([direct:orders]) --> AB[PaymentBean.process]
+        AB -->|success| AOK[ep.ok]
+        AB -->|throws RuntimeException| AE{{onException<br/>handled=true}}
+        AE --> AERR[ep.error]
+    end
+    subgraph D[dlc-demo · deadLetterChannel + redelivery]
+        B([direct:charge]) --> BB[PaymentBean.process]
+        BB -->|success| BOK[ep.charged]
+        BB -->|throws, retry x2 then give up| BD[[ep.dead]]
+    end
+    subgraph T[try-catch-demo · doTry / doCatch]
+        C([direct:settle]) --> CB[PaymentBean.process]
+        CB -->|success| COK[ep.settled]
+        CB -->|throws, caught inline| CC[ep.caught]
+    end

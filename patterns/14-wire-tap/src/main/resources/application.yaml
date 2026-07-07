@@ -1,0 +1,26 @@
+spring:
+  main:
+    banner-mode: "off"
+
+camel:
+  springboot:
+    name: shopflow-wiretap
+    # Keep the JVM alive under `spring-boot:run` even though the routes have no blocking consumer.
+    main-run-controller: true
+
+# The two endpoints of the Wire Tap.
+#   ep.main  = where the main flow goes next (untouched by the tap)
+#   ep.audit = the secondary channel that receives a fire-and-forget COPY of every order
+# In a real system these would be direct:/jms: endpoints to downstream services and an audit store;
+# here they log so you can watch both the main flow and the tapped copy live when you run the app.
+ep:
+  main: "log:main?showBody=true"
+  audit: "log:audit?showBody=true"
+
+app:
+  demo:
+    enabled: true   # the timer feeder injects a sample order every 3s so `spring-boot:run` shows the tap
+
+logging:
+  level:
+    root: INFO

@@ -1,0 +1,12 @@
+# SPDX-License-Identifier: Apache-2.0
+# Test profile config. A deliberately DIFFERENT prefix from the main yaml proves the assertion follows the
+# injected property (the test @Value-reads it) rather than a hardcoded string.
+app:
+  greeting:
+    prefix: "Namaste"
+    name: "Camel"
+
+logging:
+  level:
+    root: WARN
+    com.example.eip: INFO

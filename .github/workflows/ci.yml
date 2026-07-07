@@ -1,0 +1,37 @@
+name: ci
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build:
+    name: build & test (JDK ${{ matrix.jdk }}, ${{ matrix.profile }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        jdk: [ '17', '21' ]
+        profile: [ redhat, upstream ]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK ${{ matrix.jdk }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.jdk }}
+          cache: maven
+
+      # ubuntu-latest ships a running Docker daemon, so the broker module's Testcontainers IT runs here.
+      - name: Build & test all modules
+        run: ./mvnw -B -ntp -P ${{ matrix.profile }} verify
+
+      - name: Publish test report
+        if: always()
+        uses: dorny/test-reporter@v1
+        with:
+          name: tests-jdk${{ matrix.jdk }}-${{ matrix.profile }}
+          path: '**/target/*-reports/TEST-*.xml'
+          reporter: java-junit

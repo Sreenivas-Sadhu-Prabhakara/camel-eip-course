@@ -1,0 +1,5 @@
+flowchart LR
+    IN([direct:orders]) --> IC{Idempotent Consumer<br/>key = header orderId}
+    IC -->|first time seen| OUT[ep.out]
+    IC -->|already seen| DROP[/dropped/]
+    REPO[(IdempotentRepository<br/>in-memory)] -.remembers keys.- IC

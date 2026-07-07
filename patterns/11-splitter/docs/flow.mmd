@@ -1,0 +1,5 @@
+flowchart LR
+    IN([direct:orders<br/>1 bulk order]) --> S[/Splitter<br/>split body.items/]
+    S -->|CamelSplitIndex 0| A[ep.item]
+    S -->|CamelSplitIndex 1| B[ep.item]
+    S -->|CamelSplitIndex n| C[ep.item]

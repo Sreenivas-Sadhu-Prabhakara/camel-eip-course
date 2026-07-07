@@ -1,0 +1,5 @@
+flowchart LR
+    IN([direct:orders<br/>legacy JSON String]) --> U[unmarshal .json Jackson<br/>String -> LegacyOrder]
+    U --> T[transform .method OrderMapper<br/>rename fields, cents -> currency]
+    T --> M[marshal .json Jackson<br/>Order -> canonical JSON]
+    M --> OUT[ep.out]

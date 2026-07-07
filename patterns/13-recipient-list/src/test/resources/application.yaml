@@ -1,0 +1,22 @@
+camel:
+  springboot:
+    name: shopflow-recipient-list-test
+    main-run-controller: false
+
+# In tests, the recipient endpoints resolve to mock: endpoints so we can assert exactly
+# which systems each order fanned out to — no broker required.
+ep:
+  warehouse: "mock:warehouse"
+  invoicing: "mock:invoicing"
+  analytics: "mock:analytics"
+
+app:
+  order:
+    high-value-threshold: 1000   # same threshold the test relies on
+  demo:
+    enabled: false   # keep the timer feeder OFF so tests are deterministic
+
+logging:
+  level:
+    root: WARN
+    com.example.eip: INFO

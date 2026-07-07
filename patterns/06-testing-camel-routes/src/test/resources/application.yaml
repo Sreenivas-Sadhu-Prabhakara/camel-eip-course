@@ -1,0 +1,18 @@
+camel:
+  springboot:
+    name: shopflow-testing-test
+    main-run-controller: false
+
+# In tests, the sample route's branches go to mock endpoints so we can assert on them.
+ep:
+  a: "mock:priority"
+  b: "mock:standard"
+
+app:
+  demo:
+    enabled: false   # keep the timer feeder OFF so tests are deterministic
+
+logging:
+  level:
+    root: WARN
+    com.example.eip: INFO

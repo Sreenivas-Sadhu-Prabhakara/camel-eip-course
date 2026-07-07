@@ -1,0 +1,6 @@
+flowchart LR
+    IN([direct:orders]) --> ENR[[Content Enricher<br/>enrich + MergeStrategy]]
+    ENR -->|customerId| LK([direct:customer-lookup])
+    LK -->|CustomerRepository.findById| CUST[(Customer directory)]
+    CUST -->|Customer| ENR
+    ENR -->|order + customer fields| OUT[ep.out]

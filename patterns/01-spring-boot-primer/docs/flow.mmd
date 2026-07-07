@@ -1,0 +1,8 @@
+flowchart LR
+    RUN([SpringApplication.run]) --> SCAN{@SpringBootApplication<br/>component scan}
+    SCAN --> GS[GreetingService @Service]
+    SCAN --> SR[StartupRunner @Component]
+    SR -->|constructor DI| GS
+    CFG[(application.yaml<br/>app.greeting.*)] -->|@Value prefix| GS
+    CFG -->|@Value name| SR
+    SR -->|greet name| LOG[[logs the greeting]]

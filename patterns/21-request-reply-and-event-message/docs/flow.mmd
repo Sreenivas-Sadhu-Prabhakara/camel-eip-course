@@ -1,0 +1,9 @@
+flowchart LR
+    subgraph RR[Request-Reply · InOut]
+        C1([caller]) -->|requestBody order| A[direct:authorize<br/>routeId payment]
+        A -.->|reply AUTH-orderId| C1
+    end
+    subgraph EM[Event Message · InOnly]
+        C2([caller]) -->|sendBody order| O[direct:orders<br/>routeId emit-event]
+        O -->|InOnly| EV[ep.event]
+    end

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.example.eip</groupId>
+    <artifactId>camel-eip-course</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>../../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>21-request-reply-and-event-message</artifactId>
+  <name>21 · Request-Reply vs Event Message: Sync Auth, Fire-and-Forget Events</name>
+  <description>Contrast InOut Request-Reply (wait for a correlated reply) with InOnly Event Message (fire-and-forget).</description>
+
+  <dependencies>
+    <!-- The ONLY runtime dependency this pattern needs. Brings in camel-core, which
+         provides the direct:, log:, timer:, mock: components and the Simple language.
+         No <version> — the imported Camel Spring Boot BOM supplies it. -->
+    <dependency>
+      <groupId>org.apache.camel.springboot</groupId>
+      <artifactId>camel-spring-boot-starter</artifactId>
+    </dependency>
+
+    <!-- Test scope -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <!-- NOTE the groupId: org.apache.camel (NOT .springboot) for the test helper. -->
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-test-spring-junit5</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Enables `mvn -pl patterns/21-request-reply-and-event-message spring-boot:run`. Version from parent. -->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+</project>

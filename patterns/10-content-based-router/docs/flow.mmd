@@ -1,0 +1,5 @@
+flowchart LR
+    IN([direct:orders]) --> CBR{Content-Based Router<br/>choice on order.country}
+    CBR -->|country == IN| D[ep.domestic]
+    CBR -->|DE / FR / ES / IT| E[ep.eu]
+    CBR -->|otherwise| I[ep.international]

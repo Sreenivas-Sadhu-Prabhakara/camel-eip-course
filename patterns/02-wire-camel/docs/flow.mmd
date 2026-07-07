@@ -1,0 +1,3 @@
+flowchart LR
+    T([timer:hello]) -->|autoStartup app.demo.enabled| H[set constant body] --> L[log:hello]
+    P([direct:ping]) --> X[transform: prepend 'pong:'] --> O[ep.out]

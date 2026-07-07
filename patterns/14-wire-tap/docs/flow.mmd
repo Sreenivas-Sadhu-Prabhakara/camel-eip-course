@@ -1,0 +1,4 @@
+flowchart LR
+    IN([direct:orders]) --> WT{{Wire Tap}}
+    WT -->|main flow, untouched| M[ep.main]
+    WT -.->|async copy| A[ep.audit]

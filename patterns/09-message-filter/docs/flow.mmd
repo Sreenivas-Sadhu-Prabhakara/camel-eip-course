@@ -1,0 +1,4 @@
+flowchart LR
+    IN([direct:orders]) --> F{Message Filter<br/>totalAmount &gt; 0 AND testFlag == false}
+    F -->|predicate true| OUT[ep.out]
+    F -->|predicate false| X((dropped))

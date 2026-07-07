@@ -1,0 +1,51 @@
+# Local brokers for the messaging modules. `make up` / `make down`.
+# Credentials are dev-only. Ports: Artemis 61616 (JMS) / 8161 (console), Kafka 9092, Kafka UI 8080.
+name: camel-eip
+
+services:
+  # ---- JMS broker: ActiveMQ Artemis (module 18 point-to-point / pub-sub) ----
+  artemis:
+    image: apache/activemq-artemis:2.42.0
+    container_name: eip-artemis
+    environment:
+      ARTEMIS_USER: camel
+      ARTEMIS_PASSWORD: camel
+      ANONYMOUS_LOGIN: "false"
+    ports:
+      - "61616:61616"   # core/JMS acceptor (spring.artemis.broker-url)
+      - "8161:8161"     # web console: http://localhost:8161  (camel/camel)
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8161"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # ---- Event streaming: Kafka (KRaft, single node, no ZooKeeper) ----
+  kafka:
+    image: apache/kafka:3.9.0
+    container_name: eip-kafka
+    ports:
+      - "9092:9092"     # client listener for the host
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093,INTERNAL://0.0.0.0:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,INTERNAL://kafka:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+
+  # ---- See your messages: read-only Kafka UI ----
+  kafka-ui:
+    image: ghcr.io/kafbat/kafka-ui:latest
+    container_name: eip-kafka-ui
+    depends_on: [kafka]
+    ports:
+      - "8080:8080"     # http://localhost:8080
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
+      DYNAMIC_CONFIG_ENABLED: "true"

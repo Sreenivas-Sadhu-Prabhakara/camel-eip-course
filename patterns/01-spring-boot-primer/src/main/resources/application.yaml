@@ -1,0 +1,17 @@
+# SPDX-License-Identifier: Apache-2.0
+spring:
+  main:
+    banner-mode: "off"
+
+# Externalised configuration. GreetingService binds `prefix` via @Value("${app.greeting.prefix}") and
+# StartupRunner binds `name` via @Value("${app.greeting.name}"). Change these and the greeting changes —
+# no recompile. You can also override at runtime, e.g. --app.greeting.prefix=Namaste.
+app:
+  greeting:
+    prefix: "Hello"
+    name: "World"
+
+logging:
+  level:
+    root: INFO
+    com.example.eip: INFO

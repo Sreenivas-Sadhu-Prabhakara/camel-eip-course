@@ -1,0 +1,23 @@
+spring:
+  main:
+    banner-mode: "off"
+
+camel:
+  springboot:
+    name: shopflow-enricher
+    # Keep the JVM alive under `spring-boot:run` even though the routes have no blocking consumer.
+    main-run-controller: true
+
+# Where the enriched order goes next.
+# In a real system this would be a direct:/jms: endpoint to the downstream service;
+# here it logs so you can watch the enriched order (with customer fields filled in) live.
+ep:
+  out: "log:out?showBody=true"
+
+app:
+  demo:
+    enabled: true   # the timer feeder injects sample orders so `spring-boot:run` shows enrichment
+
+logging:
+  level:
+    root: INFO
